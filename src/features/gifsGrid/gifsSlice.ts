@@ -28,7 +28,7 @@ const gifsSlice = createSlice({
       state.isLoading = true;
     },
     getGifsSuccess: (state, action: PayloadAction<GifsResponse>) => {
-      const { data: gifs, pagination } = action.payload;
+      const { data: gifs } = action.payload;
       state.isLoading = false;
       state.error = null;
 
