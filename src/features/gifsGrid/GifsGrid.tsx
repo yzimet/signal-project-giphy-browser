@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchTrendingGifs } from './gifsSlice';
+import { fetchGifs } from './gifsSlice';
 import { RootState } from '../../app/store';
 import styles from './GifsGrid.module.css';
 
@@ -9,14 +9,15 @@ export default function GifsGrid() {
   const { gifsById, isLoading, error, visibleGifs } = useSelector(
     (state: RootState) => state.gifs
   );
+  const { query } = useSelector((state: RootState) => state.search);
 
   const limit = 10;
   const offset = 0;
   const gifs = visibleGifs.map((id) => gifsById[id]);
 
   useEffect(() => {
-    dispatch(fetchTrendingGifs(limit, offset));
-  }, [limit, offset, dispatch]);
+    dispatch(fetchGifs(query, limit, offset));
+  }, [query, limit, offset, dispatch]);
 
   if (error) {
     return (

@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import gifsReducer from '../features/gifsGrid/gifsSlice';
+import searchReducer from '../features/searchForm/searchSlice';
 
 export const store = configureStore({
   reducer: {
     gifs: gifsReducer,
+    search: searchReducer,
   },
 });
 

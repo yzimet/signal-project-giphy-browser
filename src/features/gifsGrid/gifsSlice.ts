@@ -1,6 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from '../../app/store';
-import { Gif, GifsResponse, getTrendingGifs } from '../../api/giphyAPI';
+import {
+  Gif,
+  GifsResponse,
+  getTrendingGifs,
+  getSearchedGifs,
+} from '../../api/giphyAPI';
 
 interface GifsState {
   gifsById: Record<string, Gif>;
@@ -52,14 +57,20 @@ export const {
 } = gifsSlice.actions;
 
 // thunk that performs async fetch logic
-export const fetchTrendingGifs = (
+export const fetchGifs = (
+  query: string,
   limit: number,
   offset: number
 ): AppThunk => async (dispatch) => {
   try {
     dispatch(getGifsStart());
-    const issues = await getTrendingGifs(limit, offset);
-    dispatch(getGifsSuccess(issues));
+    let gifs;
+    if (query) {
+      gifs = await getSearchedGifs(query, limit, offset);
+    } else {
+      gifs = await getTrendingGifs(limit, offset);
+    }
+    dispatch(getGifsSuccess(gifs));
   } catch (err) {
     dispatch(getGifsFailure(err.toString()));
   }

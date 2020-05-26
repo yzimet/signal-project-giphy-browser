@@ -33,3 +33,22 @@ export async function getTrendingGifs(limit: number, offset: number) {
   const { data } = await axios.get<GifsResponse>(url);
   return data;
 }
+
+export async function getSearchedGifs(
+  query: string,
+  limit: number,
+  offset: number
+) {
+  const params = {
+    api_key: process.env.REACT_APP_GIPHY_API_KEY,
+    q: query,
+    limit,
+    offset,
+    rating: 'g',
+    lang: 'en',
+  };
+  const url = `${API_BASE_URL}/v1/gifs/search?${qs.stringify(params)}`;
+
+  const { data } = await axios.get<GifsResponse>(url);
+  return data;
+}
