@@ -6,32 +6,24 @@ import styles from './GifsGrid.module.css';
 
 export default function GifsGrid() {
   const dispatch = useDispatch();
-  const { gifsById, isLoading, error, visibleGifs } = useSelector(
+  const { gifsById, error, visibleGifs, page } = useSelector(
     (state: RootState) => state.gifs
   );
   const { query } = useSelector((state: RootState) => state.search);
 
   const limit = 10;
-  const offset = 0;
+  const offset = (page - 1) * limit;
   const gifs = visibleGifs.map((id) => gifsById[id]);
 
   useEffect(() => {
     dispatch(fetchGifs(query, limit, offset));
-  }, [query, limit, offset, dispatch]);
+  }, [query, limit, offset, page, dispatch]);
 
   if (error) {
     return (
       <div>
         <h1>Something went wrong...</h1>
         <div>{error.toString()}</div>
-      </div>
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <div>
-        <h1>Loading...</h1>
       </div>
     );
   }

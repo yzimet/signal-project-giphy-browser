@@ -12,6 +12,7 @@ interface GifsState {
   visibleGifs: string[];
   isLoading: boolean;
   error: string | null;
+  page: number;
 }
 
 const initialState: GifsState = {
@@ -19,6 +20,7 @@ const initialState: GifsState = {
   visibleGifs: [],
   isLoading: false,
   error: null,
+  page: 1,
 };
 
 const gifsSlice = createSlice({
@@ -41,11 +43,17 @@ const gifsSlice = createSlice({
         state.gifsById[gif.id] = gif;
       });
 
-      state.visibleGifs = gifs.map((gif) => gif.id);
+      // My idea was to optimize for a very long page, such that
+      // we could theoretically show/hide gifs based on scroll position.
+      // For now, just show all gifs that we have.
+      state.visibleGifs = Object.keys(state.gifsById);
     },
     getGifsFailure: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
       state.error = action.payload;
+    },
+    incrementPage: (state) => {
+      state.page += 1;
     },
   },
 });
@@ -54,6 +62,7 @@ export const {
   getGifsStart,
   getGifsSuccess,
   getGifsFailure,
+  incrementPage,
 } = gifsSlice.actions;
 
 // thunk that performs async fetch logic
