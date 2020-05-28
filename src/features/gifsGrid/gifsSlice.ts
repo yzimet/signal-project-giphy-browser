@@ -55,6 +55,13 @@ const gifsSlice = createSlice({
     incrementPage: (state) => {
       state.page += 1;
     },
+    clear: (state) => {
+      state.gifsById = {};
+      state.visibleGifs = [];
+      state.isLoading = false;
+      state.error = null;
+      state.page = 1;
+    },
   },
 });
 
@@ -63,6 +70,7 @@ export const {
   getGifsSuccess,
   getGifsFailure,
   incrementPage,
+  clear,
 } = gifsSlice.actions;
 
 // thunk that performs async fetch logic

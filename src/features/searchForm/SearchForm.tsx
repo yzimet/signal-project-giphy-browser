@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { changeQuery } from './searchSlice';
+import { clear } from '../gifsGrid/gifsSlice';
 import { RootState } from '../../app/store';
 import styles from './SearchForm.module.css';
 
@@ -14,6 +15,7 @@ export default function SearchForm() {
       className={styles.form}
       onSubmit={(e) => {
         e.preventDefault();
+        dispatch(clear());
         dispatch(changeQuery(value));
       }}
     >
