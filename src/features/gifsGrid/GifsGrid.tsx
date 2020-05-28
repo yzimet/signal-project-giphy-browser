@@ -1,10 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchGifs } from './gifsSlice';
 import { RootState } from '../../app/store';
 import styles from './GifsGrid.module.css';
+import { Gif } from '../../api/giphyAPI';
 
-export default function GifsGrid() {
+interface IGifsGridProps {
+  onGifClick: (gif: Gif) => void;
+}
+
+export default function GifsGrid(props: IGifsGridProps) {
+  const { onGifClick } = props;
   const dispatch = useDispatch();
   const { gifsById, error, visibleGifs, page } = useSelector(
     (state: RootState) => state.gifs
@@ -29,16 +35,21 @@ export default function GifsGrid() {
   }
 
   return (
-    <div>
+    <div className={styles.grid}>
       {gifs.map((gif) => (
-        <img
+        <div
           key={gif.id}
-          src={gif.images.fixed_height.url}
-          width={gif.images.fixed_height.width}
-          height={gif.images.fixed_height.height}
-          alt={gif.title}
-          title={gif.title}
-        />
+          className={styles.gif}
+          onClick={() => onGifClick(gif)}
+        >
+          <img
+            src={gif.images.fixed_height.url}
+            width={gif.images.fixed_height.width}
+            height={gif.images.fixed_height.height}
+            alt={gif.title}
+            title={gif.title}
+          />
+        </div>
       ))}
     </div>
   );

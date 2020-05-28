@@ -7,6 +7,11 @@ export interface Images {
     width: number;
     height: number;
   };
+  original: {
+    url: string;
+    width: number;
+    height: number;
+  };
 }
 
 export interface Gif {
