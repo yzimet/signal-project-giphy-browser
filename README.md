@@ -26,3 +26,4 @@ You will also see any lint errors in the console.
 - pretty visual design of the gifs grid.
 - optimize performance of _very_ long infinite scroll pages by removing some images from the DOM that were scrolled past.
 - unit tests.
+- Client-side routing to return to the search term with a URL param.
